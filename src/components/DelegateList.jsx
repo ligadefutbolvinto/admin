@@ -31,7 +31,7 @@ export default function DelegateList({ refreshTrigger, onStatusChanged }) {
           created_at,
           equipos (
             id,
-            nombre_equipo
+            nombre
           )
         `)
         .order('created_at', { ascending: false });
@@ -91,7 +91,7 @@ export default function DelegateList({ refreshTrigger, onStatusChanged }) {
     const matchesSearch = 
       d.nombre_completo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       d.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      d.equipos?.nombre_equipo?.toLowerCase().includes(searchTerm.toLowerCase());
+      d.equipos?.nombre?.toLowerCase().includes(searchTerm.toLowerCase());
       
     const matchesFilter = 
       statusFilter === 'todos' || 
@@ -193,7 +193,7 @@ export default function DelegateList({ refreshTrigger, onStatusChanged }) {
                     </td>
                     <td>
                       <span className="nav-user-info" style={{ display: 'inline-block', fontWeight: 500 }}>
-                        {d.equipos?.nombre_equipo || `Equipo ID: ${d.equipo_id}`}
+                        {d.equipos?.nombre || `Equipo ID: ${d.equipo_id}`}
                       </span>
                     </td>
                     <td>

@@ -22,8 +22,8 @@ export default function DelegateForm({ onDelegateCreated }) {
         setLoadingEquipos(true);
         const { data, error } = await supabase
           .from('equipos')
-          .select('id, nombre_equipo')
-          .order('nombre_equipo', { ascending: true });
+          .select('id, nombre')
+          .order('nombre', { ascending: true });
 
         if (error) throw error;
         setEquipos(data || []);
@@ -238,7 +238,7 @@ export default function DelegateForm({ onDelegateCreated }) {
               <option value="">-- Seleccionar Equipo --</option>
               {equipos.map((eq) => (
                 <option key={eq.id} value={eq.id}>
-                  {eq.nombre_equipo}
+                  {eq.nombre}
                 </option>
               ))}
             </select>
