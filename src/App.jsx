@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import DelegateForm from './components/DelegateForm';
 import DelegateList from './components/DelegateList';
+import TeamManager from './components/TeamManager';
 import { 
   Lock, 
   Mail, 
@@ -34,6 +35,9 @@ export default function App() {
   
   // Trigger para refrescar la lista de delegados
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  
+  // Pestaña activa ('delegados' o 'equipos')
+  const [activeTab, setActiveTab] = useState('delegados');
 
   // Escuchar el estado de autenticación de Supabase
   useEffect(() => {
@@ -380,14 +384,54 @@ export default function App() {
           </div>
         </div>
 
-        {/* Contenido Central: Formulario y Listado */}
-        <div className="dashboard-grid">
-          {/* Formulario de Creación */}
-          <DelegateForm onDelegateCreated={handleDataChange} />
-
-          {/* Tabla de Delegados */}
-          <DelegateList refreshTrigger={refreshTrigger} onStatusChanged={handleDataChange} />
+        {/* Barra de Navegación por Pestañas */}
+        <div style={{ display: 'flex', gap: '1rem', borderBottom: '1px solid var(--border-color)', marginBottom: '2rem' }}>
+          <button 
+            onClick={() => setActiveTab('delegados')}
+            style={{
+              background: 'none',
+              border: 'none',
+              borderBottom: activeTab === 'delegados' ? '3px solid var(--primary)' : '3px solid transparent',
+              color: activeTab === 'delegados' ? 'var(--text-primary)' : 'var(--text-secondary)',
+              padding: '0.75rem 1.25rem',
+              fontSize: '1rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all var(--transition-fast)'
+            }}
+          >
+            Gestión de Delegados
+          </button>
+          <button 
+            onClick={() => setActiveTab('equipos')}
+            style={{
+              background: 'none',
+              border: 'none',
+              borderBottom: activeTab === 'equipos' ? '3px solid var(--primary)' : '3px solid transparent',
+              color: activeTab === 'equipos' ? 'var(--text-primary)' : 'var(--text-secondary)',
+              padding: '0.75rem 1.25rem',
+              fontSize: '1rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all var(--transition-fast)'
+            }}
+          >
+            Gestión de Equipos
+          </button>
         </div>
+
+        {/* Contenido Central según la pestaña activa */}
+        {activeTab === 'delegados' ? (
+          <div className="dashboard-grid">
+            {/* Formulario de Creación */}
+            <DelegateForm onDelegateCreated={handleDataChange} refreshTrigger={refreshTrigger} />
+
+            {/* Tabla de Delegados */}
+            <DelegateList refreshTrigger={refreshTrigger} onStatusChanged={handleDataChange} />
+          </div>
+        ) : (
+          <TeamManager onTeamsChanged={handleDataChange} />
+        )}
       </main>
 
       {/* Pie de Página */}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase, supabaseSignUpClient } from '../lib/supabase';
 import { User, Shield, Tag, Users, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 
-export default function DelegateForm({ onDelegateCreated }) {
+export default function DelegateForm({ onDelegateCreated, refreshTrigger }) {
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [ciDelegado, setCiDelegado] = useState('');
   const [username, setUsername] = useState('');
@@ -36,7 +36,7 @@ export default function DelegateForm({ onDelegateCreated }) {
     }
 
     fetchEquipos();
-  }, []);
+  }, [refreshTrigger]);
 
   // Formatear el username en tiempo real: minúsculas, sin espacios, sin caracteres especiales
   const handleUsernameChange = (e) => {
